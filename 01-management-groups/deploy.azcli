@@ -1,0 +1,40 @@
+# Switch to correct subscription
+# az login --use-device-code
+# az account set --subscription b33f0285-db27-4896-ac5c-df22004b0aba
+# az account show --output table
+
+# Don't forget to assign owner role for root scope
+# az role assignment create --scope '/' --role 'Owner' --assignee-object-id $(az ad signed-in-user show --query id --output tsv) --assignee-principal-type User
+
+# Region to use
+LOCATION=westeurope
+
+# Root management group ID
+ROOT_MG_ID=022e4faf-c745-475a-be06-06b1e1c9e39d
+
+# Deploy management groups
+# This example shows how to deploy a hierarchy of management groups
+az deployment mg create \
+    --name Deployment-$(date +"%Y-%m-%dT%H-%M-%S") \
+    --template-file main.bicep \
+    --location $LOCATION \
+    --management-group-id $ROOT_MG_ID \
+    --parameters \
+        rootGroupId=$ROOT_MG_ID \
+        location=$LOCATION \
+    | jq
+
+# Move subscriptions to management groups
+# This example demonstrates how to query subscriptions and management groups using Azure CLI.
+# Additionally, it shows how to move subscriptions to management groups.
+SUBSCIPTION_ID=$(az account subscription list --query "[?displayName=='Demo 1 (Landing Zone)'].subscriptionId" -o tsv)
+SANDBOX_MG=$(az account management-group list --query "[?displayName=='Sandbox'].name" -o tsv)
+
+az deployment tenant create \
+    --name Deployment-$(date +"%Y-%m-%dT%H-%M-%S") \
+    --template-file subscriptions.bicep \
+    --location $LOCATION \
+    --parameters \
+        managementGroupId=$SANDBOX_MG \
+        subscriptionId=$SUBSCIPTION_ID \
+    | jq
