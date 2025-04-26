@@ -1,0 +1,23 @@
+LOCATION='westeurope'
+
+SUBSCRIPTION_ID='b33f0285-db27-4896-ac5c-df22004b0aba'
+
+ADMIN_PASSWORD='letMeQueryThatForYou~1'
+
+az stack sub create \
+  --name demoStack \
+  --location $LOCATION \
+  --subscription $SUBSCRIPTION_ID \
+  --template-file './main.bicep' \
+  --action-on-unmanage 'deleteAll' \
+  --deny-settings-mode 'none' \
+  --yes \
+  --parameters \
+    	location=$LOCATION \
+        administratorLoginPassword=$ADMIN_PASSWORD
+
+az stack sub delete \
+  --name demoStack \
+  --subscription $SUBSCRIPTION_ID \
+  --action-on-unmanage 'deleteAll' \
+  --yes
