@@ -1,0 +1,14 @@
+# Region to use
+LOCATION=westeurope
+
+# Root management group ID
+ROOT_MG_ID=022e4faf-c745-475a-be06-06b1e1c9e39d
+
+# Deploy management groups
+# This example shows how to deploy a hierarchy of management groups
+az deployment mg create \
+    --name Deployment-$(date +"%Y-%m-%dT%H-%M-%S") \
+    --template-file main.bicep \
+    --location $LOCATION \
+    --management-group-id $ROOT_MG_ID \
+    | jq
