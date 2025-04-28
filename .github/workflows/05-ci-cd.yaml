@@ -1,5 +1,6 @@
 name: Deploying to Azure
 on:
+  workflow_dispatch:
   push:
     paths:
       - '05-ci-cd/**'
