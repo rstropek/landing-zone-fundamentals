@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '05-ci-cd/**'
+      - '.github/**'
 
 permissions:
   id-token: write
