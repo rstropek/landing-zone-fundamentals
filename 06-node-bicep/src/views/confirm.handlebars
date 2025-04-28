@@ -1,0 +1,46 @@
+<div class="step">
+  <h2>Step 3: Confirm Subscription Creation</h2>
+  <p>Please review the subscription details before proceeding.</p>
+</div>
+
+<div style="margin-bottom: 30px;">
+  <h3>Subscription Parameters</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Enrollment Account:</td>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{enrollmentAccountName}}</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Enrollment Account ID:</td>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd;"><code>{{enrollmentAccountId}}</code></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Management Group:</td>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{managementGroupName}}</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Management Group ID:</td>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd;"><code>{{managementGroupId}}</code></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Subscription Name (Technical):</td>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd;"><code>{{newSubscriptionName}}</code></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Subscription Display Name:</td>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{newSubscriptionDisplayName}}</td>
+    </tr>
+  </table>
+</div>
+
+<form action="/create" method="post">
+  <input type="hidden" name="enrollmentAccountId" value="{{enrollmentAccountId}}">
+  <input type="hidden" name="managementGroupId" value="{{managementGroupId}}">
+  <input type="hidden" name="newSubscriptionName" value="{{newSubscriptionName}}">
+  <input type="hidden" name="newSubscriptionDisplayName" value="{{newSubscriptionDisplayName}}">
+  
+  <div style="display: flex; justify-content: space-between;">
+    <button type="button" onclick="window.history.back();" style="background-color: #f8f9fa; color: #333; border: 1px solid #ddd;">Back</button>
+    <button type="submit">Create Subscription</button>
+  </div>
+</form> 

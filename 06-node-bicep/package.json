@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,12 @@
     "@azure/arm-managementgroups": "^2.0.2",
     "@azure/arm-resources": "^6.0.0",
     "@azure/identity": "^4.9.1",
-    "dotenv": "^16.5.0"
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

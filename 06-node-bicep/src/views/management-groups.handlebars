@@ -1,0 +1,42 @@
+<div class="step">
+  <h2>Step 2: Select a Management Group</h2>
+  <p>Choose the management group that the new subscription will be assigned to.</p>
+  <p><strong>Selected Enrollment Account:</strong> {{enrollmentAccountName}}</p>
+</div>
+
+{{#if managementGroups.length}}
+  <form action="/confirm" method="post">
+    <input type="hidden" name="enrollmentAccountId" value="{{enrollmentAccountId}}">
+    <input type="hidden" name="enrollmentAccountName" value="{{enrollmentAccountName}}">
+    
+    <div class="form-group">
+      <label for="managementGroupId">Management Group:</label>
+      <select id="managementGroupId" name="managementGroupId" required>
+        <option value="" disabled selected>-- Select a Management Group --</option>
+        {{#each managementGroups}}
+          <option value="{{this.id}}" data-name="{{this.name}}">{{this.name}} ({{this.id}})</option>
+        {{/each}}
+      </select>
+      <input type="hidden" id="managementGroupName" name="managementGroupName">
+    </div>
+    
+    <div class="form-group">
+      <label for="subscriptionDisplayName">Subscription Display Name:</label>
+      <input type="text" id="subscriptionDisplayName" name="subscriptionDisplayName" value="New Azure Subscription" required>
+    </div>
+    
+    <button type="submit">Continue</button>
+  </form>
+
+  <script>
+    // Set the management group name when selection changes
+    document.getElementById('managementGroupId').addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      document.getElementById('managementGroupName').value = selectedOption.dataset.name;
+    });
+  </script>
+{{else}}
+  <div class="error">
+    <p>No management groups found. Please check your Azure credentials and permissions.</p>
+  </div>
+{{/if}} 

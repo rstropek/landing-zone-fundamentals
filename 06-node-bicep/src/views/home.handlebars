@@ -1,0 +1,32 @@
+<div class="step">
+  <h2>Step 1: Select an Enrollment Account</h2>
+  <p>Choose the enrollment account that will be used for the new subscription.</p>
+</div>
+
+{{#if enrollmentAccounts.length}}
+  <form action="/management-groups" method="post">
+    <div class="form-group">
+      <label for="enrollmentAccountId">Enrollment Account:</label>
+      <select id="enrollmentAccountId" name="enrollmentAccountId" required>
+        <option value="" disabled selected>-- Select an Enrollment Account --</option>
+        {{#each enrollmentAccounts}}
+          <option value="{{this.id}}" data-name="{{this.name}}">{{this.name}} ({{this.id}})</option>
+        {{/each}}
+      </select>
+      <input type="hidden" id="enrollmentAccountName" name="enrollmentAccountName">
+    </div>
+    <button type="submit">Continue</button>
+  </form>
+
+  <script>
+    // Set the enrollment account name when selection changes
+    document.getElementById('enrollmentAccountId').addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      document.getElementById('enrollmentAccountName').value = selectedOption.dataset.name;
+    });
+  </script>
+{{else}}
+  <div class="error">
+    <p>No enrollment accounts found. Please check your Azure credentials and permissions.</p>
+  </div>
+{{/if}} 

@@ -1,0 +1,33 @@
+{{#if success}}
+  <div class="step">
+    <h2>Subscription Created Successfully</h2>
+    <p>Your Azure subscription has been created and assigned to the selected management group.</p>
+  </div>
+
+  <div style="margin-bottom: 30px;">
+    <h3>Deployment Details</h3>
+    <div class="json-display">{{deployment}}</div>
+  </div>
+
+  <div style="margin-bottom: 30px;">
+    <h3>Deployment Operations</h3>
+    <div class="json-display">{{operations}}</div>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <a href="/" style="display: inline-block; background-color: #0078d4; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px;">
+      Create Another Subscription
+    </a>
+  </div>
+{{else}}
+  <div class="error">
+    <h2>Subscription Creation Failed</h2>
+    <p>There was an error creating the subscription. Please check the error details below.</p>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <a href="/" style="display: inline-block; background-color: #0078d4; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px;">
+      Try Again
+    </a>
+  </div>
+{{/if}} 

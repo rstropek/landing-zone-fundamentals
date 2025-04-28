@@ -1,0 +1,23 @@
+<div class="error">
+  <h2>Error</h2>
+  <p>{{message}}</p>
+  
+  {{#if error}}
+    <h3>Error Details</h3>
+    <pre style="background-color: #f5f5f5; padding: 15px; border-radius: 4px; border: 1px solid #ddd; overflow-x: auto; font-family: monospace;">{{error}}</pre>
+  {{/if}}
+</div>
+
+{{#if hasOperations}}
+  <div style="margin-top: 30px; margin-bottom: 30px;">
+    <h3>Deployment Operations</h3>
+    <p>These operations provide detailed information about the deployment failure:</p>
+    <div class="json-display">{{operations}}</div>
+  </div>
+{{/if}}
+
+<div style="margin-top: 20px;">
+  <a href="/" style="display: inline-block; background-color: #0078d4; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px;">
+    Back to Home
+  </a>
+</div> 
