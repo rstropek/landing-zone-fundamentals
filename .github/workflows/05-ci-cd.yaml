@@ -14,18 +14,18 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: '⬇️ Checkout code'
         uses: actions/checkout@v4
-        
-      - name: Azure login
+
+      - name: '🧑‍🦱 Azure login'
         uses: azure/login@v2
         with:
           client-id: 9b02a82e-ae71-4836-aecf-b99f590c80c0
           tenant-id: 022e4faf-c745-475a-be06-06b1e1c9e39d
           subscription-id: b33f0285-db27-4896-ac5c-df22004b0aba
 
-      - name: 'Run az commands'
-        working-directory: 05-ci-cd
+      - name: '🚀 Deploy subscription'
+        working-directory: '05-ci-cd'
         run: |
           az deployment sub create \
             --name Deployment-$(date +"%Y-%m-%dT%H-%M-%S") \
@@ -34,3 +34,10 @@ jobs:
             --parameters \
                 projectName=GitHubDemo \
                 location=westeurope
+
+      - name: '🚀 Deploy storage account'
+        working-directory: '05-ci-cd'
+        run: |
+          az deployment group create \
+            --name Deployment-$(date +"%Y-%m-%dT%H-%M-%S") \
+            --template-file storage.bicep
