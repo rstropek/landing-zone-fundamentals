@@ -1,0 +1,166 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.34.44.8038",
+      "templateHash": "9923461852441785128"
+    }
+  },
+  "parameters": {
+    "billingScope": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the full resource ID of billing scope to use for subscription creation."
+      }
+    },
+    "subscriptionName": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the name of the subscription to create."
+      }
+    },
+    "subscriptionDisplayName": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the display name of the subscription to create."
+      }
+    },
+    "managementGroupId": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the full resource ID of the management group to create the subscription in."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "subscriptionDeployment",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "billingScope": {
+            "value": "[parameters('billingScope')]"
+          },
+          "subscriptionName": {
+            "value": "[parameters('subscriptionName')]"
+          },
+          "subscriptionDisplayName": {
+            "value": "[parameters('subscriptionDisplayName')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.34.44.8038",
+              "templateHash": "3988897520977971676"
+            }
+          },
+          "parameters": {
+            "billingScope": {
+              "type": "string",
+              "metadata": {
+                "description": "Provide the full resource ID of billing scope to use for subscription creation."
+              }
+            },
+            "subscriptionName": {
+              "type": "string",
+              "metadata": {
+                "description": "Provide the name of the subscription to create."
+              }
+            },
+            "subscriptionDisplayName": {
+              "type": "string",
+              "metadata": {
+                "description": "Provide the display name of the subscription to create."
+              }
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Subscription/aliases",
+              "apiVersion": "2024-08-01-preview",
+              "name": "[parameters('subscriptionName')]",
+              "properties": {
+                "workload": "Production",
+                "displayName": "[parameters('subscriptionDisplayName')]",
+                "billingScope": "[parameters('billingScope')]"
+              }
+            }
+          ],
+          "outputs": {
+            "subscriptionId": {
+              "type": "string",
+              "value": "[reference(tenantResourceId('Microsoft.Subscription/aliases', parameters('subscriptionName')), '2024-08-01-preview').subscriptionId]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "mgAssignmentDeployment",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "subscriptionName": {
+            "value": "[reference(tenantResourceId('Microsoft.Resources/deployments', 'subscriptionDeployment'), '2022-09-01').outputs.subscriptionId.value]"
+          },
+          "managementGroupId": {
+            "value": "[parameters('managementGroupId')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.34.44.8038",
+              "templateHash": "17620473315087230892"
+            }
+          },
+          "parameters": {
+            "subscriptionName": {
+              "type": "string",
+              "metadata": {
+                "description": "Provide the name of the subscription."
+              }
+            },
+            "managementGroupId": {
+              "type": "string",
+              "metadata": {
+                "description": "Provide the full resource ID of the management group to create the subscription in."
+              }
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Management/managementGroups/subscriptions",
+              "apiVersion": "2023-04-01",
+              "name": "[format('{0}/{1}', parameters('managementGroupId'), parameters('subscriptionName'))]"
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[tenantResourceId('Microsoft.Resources/deployments', 'subscriptionDeployment')]"
+      ]
+    }
+  ]
+}
