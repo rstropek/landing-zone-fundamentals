@@ -39,5 +39,6 @@ jobs:
         working-directory: '05-ci-cd'
         run: |
           az deployment group create \
+            --resource-group GitHubDemo \
             --name Deployment-$(date +"%Y-%m-%dT%H-%M-%S") \
             --template-file storage.bicep
