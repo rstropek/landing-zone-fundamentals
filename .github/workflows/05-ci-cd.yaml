@@ -22,6 +22,12 @@ jobs:
           subscription-id: b33f0285-db27-4896-ac5c-df22004b0aba
 
       - name: 'Run az commands'
+        working-directory: 05-ci-cd
         run: |
-          az account show
-          az group list
+          az deployment sub create \
+            --name Deployment-$(date +"%Y-%m-%dT%H-%M-%S") \
+            --template-file rg.bicep \
+            --location westeurope \
+            --parameters \
+                projectName=GitHubDemo \
+                location=westeurope
