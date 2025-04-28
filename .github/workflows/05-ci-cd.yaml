@@ -1,0 +1,24 @@
+name: Deploying to Azure
+on: [push]
+paths:
+  - '05-ci-cd/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: '9b02a82e-ae71-4836-aecf-b99f590c80c0'
+          tenant-id: '022e4faf-c745-475a-be06-06b1e1c9e39d'
+          subscription-id: 'b33f0285-db27-4896-ac5c-df22004b0aba'
+
+      - name: 'Run az commands'
+        run: |
+          az account show
+          az group list
